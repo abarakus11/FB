@@ -121,11 +121,6 @@ window.GALLERY_ITEMS=[
   },
   {
     "type": "image",
-    "src": "assets/gallery/images/img-18.jpg",
-    "cap": "Chevette clássico · interior"
-  },
-  {
-    "type": "image",
     "src": "assets/gallery/images/img-19.jpg",
     "cap": "Volkswagen · vitrificação"
   },

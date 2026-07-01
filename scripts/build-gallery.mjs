@@ -24,7 +24,6 @@ const CAPTIONS = {
   'WhatsApp Image 2026-07-01 at 12.21.31.jpeg': 'Interior Toyota · detalhamento',
   'WhatsApp Image 2026-07-01 at 12.21.31 (1).jpeg': 'Chevrolet Spin · finalização',
   'WhatsApp Image 2026-07-01 at 12.21.31 (2).jpeg': 'Interior Honda · higienização',
-  'WhatsApp Image 2026-07-01 at 12.21.31 (3).jpeg': 'Chevette clássico · interior',
   'WhatsApp Image 2026-07-01 at 12.21.31 (4).jpeg': 'Volkswagen · vitrificação',
   'WhatsApp Image 2026-07-01 at 12.21.32.jpeg': 'Pintura espelhada · detalhe',
   'WhatsApp Image 2026-07-01 at 12.21.32 (1).jpeg': 'Acabamento de alto padrão',
@@ -62,8 +61,13 @@ function sortKey(name) {
   return `${isVideo}-${base}-${suffix}-${name}`;
 }
 
+const EXCLUDE = new Set([
+  'WhatsApp Image 2026-07-01 at 12.21.31 (3).jpeg', // flyer promocional — não usar na galeria
+]);
+
 const files = fs.readdirSync(SRC)
   .filter((f) => /^WhatsApp (Image|Video) 2026-07-01 at 12\.21\./.test(f))
+  .filter((f) => !EXCLUDE.has(f))
   .sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
 
 const items = [];
