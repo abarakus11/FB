@@ -12,6 +12,7 @@ const SEO_HEAD = `<!-- SEO & Social -->
 <meta name="author" content="F&amp;B Estética Automotiva">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow">
+<meta name="google-site-verification" content="sjY7iCVlrdLo-8D_aAl7u33xKkFV6QtUZ-psCsKGVJs">
 <meta name="theme-color" content="#050506">
 <meta name="format-detection" content="telephone=yes">
 <link rel="canonical" href="${SITE}/">
