@@ -1,0 +1,12 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ambiente / secrets
+.env
+.env.*
+
+# Artefatos de desenvolvimento
+*.log
+.vercel
