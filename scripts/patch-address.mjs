@@ -30,7 +30,7 @@ const cssNew = `.foot-map{margin-top:50px}
 
 const contactOld = `    <div class="foot-col">
       <h4>Contato</h4>
-      <a href="https://wa.me/5511997459765" target="_blank" rel="noopener">WhatsApp (11) 99745-9765</a>
+      <a href="https://wa.me/5511925939170" target="_blank" rel="noopener">WhatsApp (11) 92593-9170</a>
       <p>Grande São Paulo · SP</p>
       <p>Seg a Sáb · com agendamento</p>
     </div>
@@ -39,7 +39,7 @@ const contactOld = `    <div class="foot-col">
 
 const contactNew = `    <div class="foot-col">
       <h4>Contato</h4>
-      <a href="https://wa.me/5511997459765" target="_blank" rel="noopener">WhatsApp (11) 99745-9765</a>
+      <a href="https://wa.me/5511925939170" target="_blank" rel="noopener">WhatsApp (11) 92593-9170</a>
       <a href="${mapsUrl}" target="_blank" rel="noopener">Rod. José Simões Louro Júnior, 15360<br>Crispim · Itapecerica da Serra · SP</a>
       <p>Seg a Sáb · com agendamento</p>
     </div>
