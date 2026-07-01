@@ -1,0 +1,22 @@
+{
+  "name": "F&B Estética Automotiva",
+  "short_name": "F&B Estética",
+  "description": "Polimento, vitrificação e lavagem detalhada em Itapecerica da Serra",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050506",
+  "theme_color": "#050506",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/og-image.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
