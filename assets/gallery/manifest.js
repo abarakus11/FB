@@ -121,11 +121,6 @@ window.GALLERY_ITEMS=[
   },
   {
     "type": "image",
-    "src": "assets/gallery/images/img-19.jpg",
-    "cap": "Volkswagen · vitrificação"
-  },
-  {
-    "type": "image",
     "src": "assets/gallery/images/img-20.jpg",
     "cap": "Pintura espelhada · detalhe"
   },
