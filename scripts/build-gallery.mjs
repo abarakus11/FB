@@ -23,6 +23,7 @@ const CAPTIONS = {
   'WhatsApp Image 2026-07-01 at 12.21.30 (3).jpeg': 'Volvo XC60 · brilho recuperado',
   'WhatsApp Image 2026-07-01 at 12.21.31.jpeg': 'Interior Toyota · detalhamento',
   'WhatsApp Image 2026-07-01 at 12.21.31 (1).jpeg': 'Chevrolet Spin · finalização',
+  'WhatsApp Image 2026-07-01 at 12.22.59.jpeg': 'Porsche Macan · finalização',
   'WhatsApp Image 2026-07-01 at 12.21.31 (2).jpeg': 'Interior Honda · higienização',
   'WhatsApp Image 2026-07-01 at 12.21.31 (4).jpeg': 'Volkswagen · vitrificação',
   'WhatsApp Image 2026-07-01 at 12.21.32.jpeg': 'Pintura espelhada · detalhe',

@@ -112,7 +112,7 @@ window.GALLERY_ITEMS=[
   {
     "type": "image",
     "src": "assets/gallery/images/img-16.jpg",
-    "cap": "Chevrolet Spin · finalização"
+    "cap": "Porsche Macan · finalização"
   },
   {
     "type": "image",
