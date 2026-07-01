@@ -180,14 +180,20 @@ h1,h2,h3{font-family:var(--ff-display);color:var(--chrome-hi);line-height:1.02;f
 .proc-c h3{font-size:clamp(20px,3vw,30px)}
 .proc-c p{color:var(--steel);font-weight:300;margin-top:10px;max-width:60ch;font-size:15px}
 
-/* ============================ GALERIA ============================ */
-.gal{columns:3;column-gap:16px}
-@media(max-width:900px){.gal{columns:2}}
-@media(max-width:560px){.gal{columns:1}}
-.gitem{position:relative;break-inside:avoid;margin-bottom:16px;border-radius:12px;overflow:hidden;
+/* ============================ GALERIA — carrossel horizontal ============================ */
+.gal-marquee{position:relative;margin-left:calc(-1 * clamp(20px,6vw,90px));margin-right:calc(-1 * clamp(20px,6vw,90px));
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.gal{overflow:hidden;padding:4px 0}
+.gal-track{display:flex;gap:16px;width:max-content;will-change:transform;
+  animation:galMarquee var(--gal-dur,100s) linear infinite}
+.gal-marquee:hover .gal-track{animation-play-state:paused}
+@keyframes galMarquee{to{transform:translateX(-50%)}}
+.gitem{position:relative;flex:0 0 auto;width:clamp(240px,28vw,340px);border-radius:12px;overflow:hidden;
   border:1px solid var(--line-2);cursor:pointer}
-.gitem img,.gitem video{width:100%;height:auto;display:block;transition:transform .9s var(--ease),filter .6s;filter:saturate(.92) contrast(1.02)}
-.gitem--video video{aspect-ratio:16/10;object-fit:cover;background:#000}
+.gitem img,.gitem video{width:100%;height:clamp(180px,20vw,260px);object-fit:cover;display:block;
+  transition:transform .9s var(--ease),filter .6s;filter:saturate(.92) contrast(1.02)}
+.gitem--video video{aspect-ratio:16/10;height:clamp(180px,20vw,260px)}
 .gitem .play-ico{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none;
   font-size:0}
 .gitem .play-ico::before{content:"";width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
@@ -268,6 +274,10 @@ h1,h2,h3{font-family:var(--ff-display);color:var(--chrome-hi);line-height:1.02;f
   .reveal{opacity:1;transform:none}
   *{animation:none!important}
   .auto-bg{position:fixed;height:100dvh}
+  .gal{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;padding-bottom:8px}
+  .gal::-webkit-scrollbar{display:none}
+  .gitem{scroll-snap-align:start}
 }
 </style>
 </head>
@@ -370,7 +380,9 @@ h1,h2,h3{font-family:var(--ff-display);color:var(--chrome-hi);line-height:1.02;f
 <section class="section" id="galeria">
   <span class="eyebrow reveal">Resultados</span>
   <h2 class="h-sec reveal" style="margin-bottom:48px">Trabalhos realizados</h2>
-  <div class="gal" id="gal"></div>
+  <div class="gal-marquee reveal">
+    <div class="gal" id="gal"><div class="gal-track" id="galTrack"></div></div>
+  </div>
 </section>
 
 <!-- CTA -->
@@ -499,9 +511,9 @@ process.forEach((p,i)=>{
   el.innerHTML=`<div class="proc-num">0${i+1}</div><div class="proc-c"><h3>${p.t}</h3><p>${p.d}</p></div>`;
   procList.appendChild(el);
 });
-/* build gallery */
-const gal=document.getElementById('gal');
-gallery.forEach(g=>{
+/* build gallery carousel */
+const galTrack=document.getElementById('galTrack');
+function mountGalleryItem(g){
   const el=document.createElement('div');
   const isVideo=g.type==='video';
   el.className='gitem'+(isVideo?' gitem--video':''); el.dataset.hov='';
@@ -512,8 +524,21 @@ gallery.forEach(g=>{
     el.innerHTML=`<img src="${g.src}" alt="${g.cap}" loading="lazy" decoding="async"><div class="cap">${g.cap}</div>`;
     el.addEventListener('click',()=>openLB(g));
   }
-  gal.appendChild(el);
-});
+  return el;
+}
+function initGalMarquee(){
+  if(!galTrack||!gallery.length) return;
+  const pxPerSec=42;
+  const half=galTrack.scrollWidth/2;
+  const dur=Math.max(half/pxPerSec,50);
+  galTrack.style.setProperty('--gal-dur',dur+'s');
+}
+[0,1].forEach(()=>gallery.forEach(g=>galTrack.appendChild(mountGalleryItem(g))));
+if(galTrack){
+  initGalMarquee();
+  addEventListener('load',initGalMarquee);
+  addEventListener('resize',()=>{clearTimeout(window._galResize);window._galResize=setTimeout(initGalMarquee,200);});
+}
 document.getElementById('yr').textContent=new Date().getFullYear();
 
 /* ============================================================
