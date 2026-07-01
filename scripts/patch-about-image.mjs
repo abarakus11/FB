@@ -12,7 +12,7 @@ if (start === -1) {
 const imgStart = c.indexOf('<img', start);
 const imgEnd = c.indexOf('>', imgStart) + 1;
 const replacement =
-  '<img src="assets/about/volvo-xc60.jpg?v=1" alt="Volvo XC60 · acabamento F&amp;B" data-parallax decoding="async" loading="lazy">';
+  '<img src="assets/about/kia-sportage.jpg?v=1" alt="Kia Sportage · acabamento F&amp;B" data-parallax decoding="async" loading="lazy">';
 
 c = c.slice(0, imgStart) + replacement + c.slice(imgEnd);
 fs.writeFileSync(path, c, 'utf8');
