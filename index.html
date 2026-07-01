@@ -404,13 +404,17 @@ const COARSE  = window.matchMedia('(pointer:coarse)').matches;
   if(REDUCED) return;                 // reduced motion -> keep the static poster
   const id='xX82iY1L9hg';
   const params='autoplay=1&mute=1&controls=0&loop=1&playlist='+id+
-    '&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&disablekb=1&fs=0&showinfo=0&cc_load_policy=0';
+    '&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&disablekb=1&fs=0&showinfo=0&cc_load_policy=0&enablejsapi=1';
   const f=document.createElement('iframe');
   f.src='https://www.youtube-nocookie.com/embed/'+id+'?'+params;
   f.allow='autoplay; encrypted-media; picture-in-picture';
   f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
   f.setAttribute('frameborder','0'); f.setAttribute('tabindex','-1'); f.setAttribute('aria-hidden','true');
   document.getElementById('videoWrap').appendChild(f);
+  window.resumeBgVideo=()=>{
+    try{f.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');}
+    catch(e){}
+  };
 })();
 
 /* ============================================================
@@ -542,11 +546,15 @@ if(!REDUCED){
     scrollTrigger:{trigger:'#topo',start:'top top',end:'60% top',scrub:.5}});
   gsap.to(['#halo','.hexlights'],{opacity:0,ease:'none',
     scrollTrigger:{trigger:'#topo',start:'top top',end:'40% top',scrub:.5}});
-  /* automotive backdrop: fade out + slow push-in as hero leaves */
-  gsap.to('#autoBg',{opacity:0,ease:'none',
-    scrollTrigger:{trigger:'#topo',start:'top top',end:'78% top',scrub:.5}});
-  gsap.to('.auto-bg img',{yPercent:9,scale:1.16,ease:'none',
-    scrollTrigger:{trigger:'#topo',start:'top top',end:'bottom top',scrub:true}});
+  /* automotive backdrop: parallax only — video stays visible when scrolling back */
+  gsap.set('#autoBg',{opacity:1});
+  gsap.to(['.auto-bg img','#videoWrap'],{yPercent:9,scale:1.16,ease:'none',
+    scrollTrigger:{trigger:'#topo',start:'top top',end:'bottom top',scrub:true,invalidateOnRefresh:true}});
+  ScrollTrigger.create({
+    trigger:'#topo',start:'top top',end:'top top',
+    onEnterBack:()=>{gsap.set('#autoBg',{opacity:1});window.resumeBgVideo&&window.resumeBgVideo();},
+    onLeaveBack:()=>{gsap.set('#autoBg',{opacity:1});window.resumeBgVideo&&window.resumeBgVideo();}
+  });
 
   /* reveals */
   gsap.utils.toArray('.reveal').forEach(el=>{
