@@ -43,11 +43,13 @@ h1,h2,h3{font-family:var(--ff-display);color:var(--chrome-hi);line-height:1.02;f
 .auto-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .auto-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;
   transform:scale(1.08);will-change:transform;filter:saturate(.86) contrast(1.06) brightness(.6)}
-/* youtube video background — scaled to always cover, no UI/hover */
-.video-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.video-wrap iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:100vw;height:56.25vw;min-width:177.78vh;min-height:100vh;border:0;pointer-events:none;
+/* youtube video background — scaled/cropped, zero player chrome */
+.video-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;isolation:isolate}
+#ytBgMount{position:absolute;inset:0}
+.video-wrap iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1.42);
+  width:100vw;height:56.25vw;min-width:177.78vh;min-height:100vh;border:0;pointer-events:none!important;
   filter:saturate(.9) contrast(1.05) brightness(.6)}
+.video-shield{position:absolute;inset:0;z-index:3;background:transparent;pointer-events:auto;cursor:default}
 .auto-bg::after{content:"";position:absolute;inset:0;background:
   linear-gradient(180deg,rgba(5,5,6,.8) 0%,rgba(5,5,6,.42) 34%,rgba(5,5,6,.74) 72%,var(--void) 100%),
   radial-gradient(130% 80% at 50% 16%,transparent 32%,rgba(5,5,6,.72) 100%),
@@ -397,6 +399,7 @@ h1,h2,h3{font-family:var(--ff-display);color:var(--chrome-hi);line-height:1.02;f
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="assets/gallery/manifest.js?v=1"></script>
 <script>
@@ -409,22 +412,47 @@ const IMG = {
 const REDUCED = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const COARSE  = window.matchMedia('(pointer:coarse)').matches;
 
-/* ===== YouTube background — muted autoplay loop, no controls/title ===== */
+/* ===== YouTube background — API player, sem controles visíveis ===== */
 (function(){
-  if(REDUCED) return;                 // reduced motion -> keep the static poster
+  if(REDUCED) return;
   const id='xX82iY1L9hg';
-  const params='autoplay=1&mute=1&controls=0&loop=1&playlist='+id+
-    '&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&disablekb=1&fs=0&showinfo=0&cc_load_policy=0&enablejsapi=1';
-  const f=document.createElement('iframe');
-  f.src='https://www.youtube-nocookie.com/embed/'+id+'?'+params;
-  f.allow='autoplay; encrypted-media; picture-in-picture';
-  f.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
-  f.setAttribute('frameborder','0'); f.setAttribute('tabindex','-1'); f.setAttribute('aria-hidden','true');
-  document.getElementById('videoWrap').appendChild(f);
-  window.resumeBgVideo=()=>{
-    try{f.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');}
-    catch(e){}
+  const wrap=document.getElementById('videoWrap');
+  if(!wrap) return;
+  wrap.innerHTML='<div class="video-shield" aria-hidden="true"></div>';
+  let bgPlayer=null;
+  const keepPlaying=()=>{
+    if(!bgPlayer||typeof bgPlayer.getPlayerState!=='function') return;
+    const s=bgPlayer.getPlayerState();
+    if(s===YT.PlayerState.PAUSED||s===YT.PlayerState.ENDED) bgPlayer.playVideo();
   };
+  window.resumeBgVideo=()=>{ try{keepPlaying();}catch(e){} };
+  const mount=()=>{
+    bgPlayer=new YT.Player('ytBgMount',{
+      videoId:id,
+      width:'100%',height:'100%',
+      playerVars:{
+        autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,showinfo:0,
+        iv_load_policy:3,playsinline:1,disablekb:1,fs:0,loop:1,playlist:id,
+        cc_load_policy:0,autohide:1,origin:location.origin,widget_referrer:location.href
+      },
+      events:{
+        onReady:(e)=>{e.target.mute();e.target.playVideo();},
+        onStateChange:(e)=>{
+          if(e.data===YT.PlayerState.PAUSED||e.data===YT.PlayerState.ENDED) e.target.playVideo();
+        }
+      }
+    });
+  };
+  const mountEl=document.createElement('div');
+  mountEl.id='ytBgMount';
+  wrap.prepend(mountEl);
+  if(window.YT&&YT.Player) mount();
+  else{
+    const prev=window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady=()=>{if(prev)prev();mount();};
+  }
+  addEventListener('visibilitychange',()=>{if(!document.hidden) keepPlaying();});
+  setInterval(keepPlaying,4000);
 })();
 
 /* ============================================================
