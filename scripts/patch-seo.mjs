@@ -15,6 +15,8 @@ const SEO_HEAD = `<!-- SEO & Social -->
 <meta name="google-site-verification" content="sjY7iCVlrdLo-8D_aAl7u33xKkFV6QtUZ-psCsKGVJs">
 <meta name="theme-color" content="#050506">
 <meta name="format-detection" content="telephone=yes">
+<meta name="geo.region" content="BR-SP">
+<meta name="geo.placename" content="Itapecerica da Serra">
 <link rel="canonical" href="${SITE}/">
 <link rel="alternate" hreflang="pt-BR" href="${SITE}/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -23,16 +25,16 @@ const SEO_HEAD = `<!-- SEO & Social -->
 <meta property="og:locale" content="pt_BR">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="F&amp;B Estética Automotiva">
-<meta property="og:title" content="F&amp;B Estética Automotiva — Polimento, Vitrificação e Lavagem Detalhada">
-<meta property="og:description" content="Estética automotiva premium em Itapecerica da Serra. Polimento técnico, vitrificação, higienização interna e lavagem detalhada. Agende pelo WhatsApp.">
+<meta property="og:title" content="FB Estética Automotiva | Estética em Itapecerica da Serra">
+<meta property="og:description" content="Especialistas em estética automotiva em Itapecerica da Serra. Polimento técnico, vitrificação, higienização interna, revitalização de faróis e detalhamento premium.">
 <meta property="og:url" content="${SITE}/">
 <meta property="og:image" content="${SITE}/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Kia Sportage finalizada no estúdio F&amp;B Estética Automotiva">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="F&amp;B Estética Automotiva — Polimento, Vitrificação e Lavagem Detalhada">
-<meta name="twitter:description" content="Estética automotiva premium em Itapecerica da Serra. Agende pelo WhatsApp (11) 92593-9170.">
+<meta name="twitter:title" content="FB Estética Automotiva | Estética em Itapecerica da Serra">
+<meta name="twitter:description" content="Especialistas em estética automotiva em Itapecerica da Serra. Polimento técnico, vitrificação, higienização e detalhamento premium. WhatsApp (11) 92593-9170.">
 <meta name="twitter:image" content="${SITE}/assets/og-image.jpg">
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -101,11 +103,11 @@ const SCHEMA = `<script type="application/ld+json">
 
 html = html.replace(
   /<title>[^<]*<\/title>/,
-  '<title>F&amp;B Estética Automotiva — Polimento, Vitrificação e Lavagem Detalhada | Itapecerica da Serra</title>'
+  '<title>FB Estética Automotiva | Estética em Itapecerica da Serra</title>'
 );
 html = html.replace(
   /<meta name="description" content="[^"]*"\s*\/?>/,
-  '<meta name="description" content="F&amp;B Estética Automotiva em Itapecerica da Serra: polimento técnico, vitrificação, higienização interna e lavagem detalhada. Agende pelo WhatsApp (11) 92593-9170.">'
+  '<meta name="description" content="Especialistas em estética automotiva em Itapecerica da Serra. Polimento técnico, vitrificação, higienização interna, revitalização de faróis e detalhamento premium.">'
 );
 
 if (!html.includes('rel="canonical"')) {
@@ -246,7 +248,7 @@ html = html.replace(
 fs.writeFileSync(path.join(ROOT, 'site.webmanifest'), JSON.stringify({
   name: 'F&B Estética Automotiva',
   short_name: 'F&B Estética',
-  description: 'Polimento, vitrificação e lavagem detalhada em Itapecerica da Serra',
+  description: 'Estética automotiva em Itapecerica da Serra — polimento técnico, vitrificação e detalhamento automotivo',
   start_url: '/',
   display: 'standalone',
   background_color: '#050506',
