@@ -63,8 +63,9 @@ function sortKey(name) {
 }
 
 const EXCLUDE = new Set([
-  'WhatsApp Image 2026-07-01 at 12.21.31 (3).jpeg', // flyer promocional — não usar na galeria
+  'WhatsApp Image 2026-07-01 at 12.21.31 (3).jpeg', // flyer Lavagem Detalhada — não usar na galeria
   'WhatsApp Image 2026-07-01 at 12.21.31 (4).jpeg', // Corsa preto · legenda incorreta — removido da galeria
+  'WhatsApp Image 2026-07-01 at 12.21.33 (1).jpeg', // flyer Lavagem de Entrada — não usar na galeria
 ]);
 
 const files = fs.readdirSync(SRC)

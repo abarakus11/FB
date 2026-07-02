@@ -151,11 +151,6 @@ window.GALLERY_ITEMS=[
   },
   {
     "type": "image",
-    "src": "assets/gallery/images/img-26.jpg",
-    "cap": "Higienização completa"
-  },
-  {
-    "type": "image",
     "src": "assets/gallery/images/img-27.jpg",
     "cap": "Detalhe de acabamento"
   },
